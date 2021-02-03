@@ -1,0 +1,33 @@
+Intuitive Understanding the relationship between Signal and Frequency
+
+To compile and run this program, execute "gradle run" or "make".
+
+When a window is opened, push "set image" button and load an image
+which is larger than 512 x 512.
+Both color and grayscale images are available, but the loaded color
+image is transformed into a grayscale image.
+
+In the window, the left-hand part is the signal domain.
+The first top two sliders set sigmas for two Gaussian kernels.
+The first kernel is positive and the second one is negative.
+Both are normalized by L1.
+A custom kernel is applicable by loading an image file.
+There are two modes for the loading. The first one loads an image
+and normalizes it by L1. Loading an image by another mode, 
+each pixel values are divided by 256 and subtracted with 0.5, and then
+it is L2 normalized.
+
+The next slider gives a magnification coefficient to pixel values.
+
+The two buttons in the center of the window run Fourier transform and
+inverse Fourier transform
+
+The right-hand part is the frequency domain.
+The top two sliders set sigmas for two Gaussian masks.
+Composing two masks, a bandpass filtering is applicable.
+A custom filter is also available by loading an image file.
+
+The toggle buttons choose the normal mask designed above and the black and white reversal of it. 
+
+The lowest slider controls the sampling interval in the signal domain.
+

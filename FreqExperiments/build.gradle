@@ -1,0 +1,88 @@
+plugins {
+    id 'java'
+}
+
+//apply plugin: 'java'
+dependencies {
+    compile fileTree(dir: 'lib/jar', include: '*.jar')
+}
+
+//sourceCompatibility = 1.10 // -source
+//targetCompatibility = 1.10 // -target
+
+subprojects {
+    repositories {
+        jcenter()
+    }
+    apply plugin: 'java'
+    apply plugin: 'application'
+
+    dependencies {
+        compile fileTree(dir: '../lib/jar', include: '*.jar')
+        compile fileTree(dir: '../javafx-sdk-11.0.2/lib', include: '*.jar')
+    }
+
+    println(project.name);
+    //app.onlyIf{!excludeProject.contains(project.name)}
+    //apply plugin: 'application'
+
+    sourceSets { //plugin javaで定義されている
+        main {
+            java {
+                srcDirs 'src'
+            }
+            java.outputDir = file('bin')
+            println "java.srcDirs = ${java.srcDirs}"
+            println "java.files = ${java.files.name}"
+            println "allJava.files = ${allJava.files.name}"
+        }
+        test {
+            java {
+                srcDirs 'src'
+            }
+        }
+    }
+    //sourceSets.main.java.srcDirs = 'src' //短縮表記?
+    //sourceSets.test.java.srcDirs = 'src' //短縮表記?
+    buildDir = 'bin' //build中のtmpやbuildができる場所 gradle cleanで消される
+
+    // プロジェクト名をメインクラス名とする
+    mainClassName = project.name
+
+    run {
+        doFirst {
+            jvmArgs = [
+                "--class-path", classpath.asPath,
+                "--module-path", '../libs',
+                "--add-modules", 'javafx.controls',
+                mainClassName
+            //    "--module", mainClassName
+            ]
+            classpath = files()
+            println "jvmArgs = ${jvmArgs}"
+        }
+    }
+
+    javadoc {
+        description = 'Generates API documents.'
+        doFirst {
+            options.addStringOption('-module-path', classpath.asPath)
+            options.addStringOption('-add-modules', 'javafx.controls')
+        }
+        source = sourceSets.main.allJava // default と一緒
+        inputs.property("moduleName",'javafx.controls')
+        options {
+            links("https://docs.oracle.com/javase/jp/11/docs/api/");
+            //links("https://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/");
+            links("https://openjfx.io/javadoc/11/");
+        }
+    }
+    
+}
+
+project(':SignalFreq'){
+    /* To understand the relationship between Signal and Frequency domain.
+     */
+}
+
+
