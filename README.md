@@ -1,1 +1,2 @@
-# Computer Graphics Lecture assignments
+## Computer Graphics Lecture assignments
+@ School of Computing, TokyoTech
